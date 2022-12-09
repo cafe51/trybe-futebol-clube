@@ -1,7 +1,9 @@
-export default interface IUser{
+interface IUser{
   id?: number;
   username: string;
-  role: string;
+  role: 'admin' | 'user';
   email: string;
   password: string;
 }
+
+export default IUser;

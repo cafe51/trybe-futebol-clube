@@ -1,7 +1,7 @@
 import { IMatch } from '../interfaces';
 import Match from '../database/models/MatchModel';
 
-export default class MatchService {
+class MatchService {
   protected _model = Match;
 
   async findAll(): Promise<IMatch[] | null> {
@@ -9,3 +9,5 @@ export default class MatchService {
     return result;
   }
 }
+
+export default MatchService;

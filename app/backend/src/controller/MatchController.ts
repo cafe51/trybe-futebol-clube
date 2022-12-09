@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { MatchService } from '../service';
 
-export default class MatchController {
+class MatchController {
   private service: MatchService;
 
   constructor() {
@@ -17,3 +17,5 @@ export default class MatchController {
     }
   };
 }
+
+export default MatchController;

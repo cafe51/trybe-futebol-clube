@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { UserService } from '../service';
 
-export default class UserController {
+class UserController {
   private _service: UserService;
 
   constructor() {
@@ -17,3 +17,5 @@ export default class UserController {
     }
   };
 }
+
+export default UserController;

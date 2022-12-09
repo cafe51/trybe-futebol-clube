@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { TeamService } from '../service';
 
-export default class TeamController {
+class TeamController {
   private service: TeamService;
 
   constructor() {
@@ -17,3 +17,5 @@ export default class TeamController {
     }
   };
 }
+
+export default TeamController;

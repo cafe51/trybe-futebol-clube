@@ -1,7 +1,7 @@
 import { ITeam } from '../interfaces';
 import Team from '../database/models/TeamModel';
 
-export default class TeamService {
+class TeamService {
   protected _model = Team;
 
   async findAll(): Promise<ITeam[] | null> {
@@ -9,3 +9,5 @@ export default class TeamService {
     return result;
   }
 }
+
+export default TeamService;

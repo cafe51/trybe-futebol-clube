@@ -1,16 +1,14 @@
-// import bcrypt = require('bcryptjs');
-// import { IUser } from '../interfaces';
 import Users from '../database/models/UserModel';
 
 class UserValidator {
-  isEmailExist = async (email: string): Promise<boolean> => {
-    const emailExist = await Users.findOne({ where: { email } });
-    return emailExist !== null;
+  getUserByEmail = async (email: string): Promise<Users | null> => {
+    const user = await Users.findOne({ where: { email } });
+    return user;
   };
 
-  isUserNameExist = async (username: string): Promise<boolean> => {
-    const usernameExist = await Users.findOne({ where: { username } });
-    return usernameExist !== null;
+  getUserByusername = async (username: string): Promise<Users | null> => {
+    const user = await Users.findOne({ where: { username } });
+    return user;
   };
 }
 

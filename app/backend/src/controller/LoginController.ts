@@ -12,23 +12,22 @@ class LoginController {
     try {
       const { email, password } = req.body;
 
-      const payload = await this.loginService.signIn(email, password);
+      const { message, code } = await this.loginService.signIn(email, password);
 
-      if (!payload) return res.status(401).json('email ou usuário errados');
-
-      return res.status(200).json(payload);
+      // console.log(this.secret);
+      return res.status(code).json(message);
     } catch (err) {
       console.log(err);
     }
   };
 
+  validate = (req: Request, res: Response) => res.status(200).json({ role: 'admin' });
+
   signUp = async (req: Request, res: Response) => {
     try {
-      const { code, response } = await this.loginService.signUp(req.body);
+      const { code, message } = await this.loginService.signUp(req.body);
 
-      // if (!payload) return res.status(401).json('email ou usuário errados');
-
-      return res.status(code).json(response);
+      return res.status(code).json(message);
     } catch (err) {
       console.log(err);
     }

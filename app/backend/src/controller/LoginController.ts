@@ -21,7 +21,10 @@ class LoginController {
     }
   };
 
-  validate = (req: Request, res: Response) => res.status(200).json({ role: 'admin' });
+  validate = (req: Request, res: Response) => {
+    // console.log(req.body.userDecoded.user.role);
+    res.status(200).json({ role: req.body.userDecoded.user.role });
+  };
 
   signUp = async (req: Request, res: Response) => {
     try {

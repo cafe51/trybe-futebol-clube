@@ -1,9 +1,5 @@
-import { Request, Response, NextFunction, Application } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import JWT from '../utils/jwt';
-
-interface CustomApp extends Application {
-  user: object | string;
-}
 
 class LoginValidator {
   private jwt: JWT;
@@ -20,7 +16,9 @@ class LoginValidator {
       }
       const decoded = this.jwt.verifyToken(token);
 
-      (req.app as CustomApp).user = decoded;
+      req.body.userDecoded = decoded;
+
+      // (req.app.user as CustomApp).user = decoded;
 
       next();
     } catch (e) {

@@ -25,7 +25,6 @@ class JWT {
       this.secret = 'jwt_secret';
     }
     const decodedJwt = jwt.verify(token, this.secret);
-    console.log(decodedJwt);
     return decodedJwt;
   };
 }

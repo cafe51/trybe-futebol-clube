@@ -11,7 +11,7 @@ class UserController {
   findAll = async (req: Request, res: Response) => {
     try {
       const result = await this._service.findAll();
-      return res.status(200).json({ token: result });
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
     }

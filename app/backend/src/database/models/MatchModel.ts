@@ -49,10 +49,10 @@ Matches.init({
 // const homeTeam = { foreignKey: 'homeTeam', as: 'homeTeamfk' };
 // const awayTeam = { foreignKey: 'awayTeam', as: 'awayTeamfk' };
 
-Teams.hasMany(Matches, { foreignKey: 'homeTeam', as: 'homeTeamfk' });
-Teams.hasMany(Matches, { foreignKey: 'awayTeam', as: 'awayTeamfk' });
+Teams.hasMany(Matches, { foreignKey: 'homeTeam', as: 'teamHome' });
+Teams.hasMany(Matches, { foreignKey: 'awayTeam', as: 'teamAway' });
 
-Matches.belongsTo(Teams, { foreignKey: 'homeTeam', as: 'homeTeamfk' });
-Matches.belongsTo(Teams, { foreignKey: 'awayTeam', as: 'awayTeamfk' });
+Matches.belongsTo(Teams, { foreignKey: 'homeTeam', as: 'teamHome' });
+Matches.belongsTo(Teams, { foreignKey: 'awayTeam', as: 'teamAway' });
 
 export default Matches;

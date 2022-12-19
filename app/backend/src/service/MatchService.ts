@@ -1,21 +1,35 @@
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
 
+interface includeType {
+  model: typeof Teams,
+  as: string,
+  attributes: string[];
+}
+
+interface queryType {
+  include: includeType[],
+  where?: { inProgress: boolean },
+}
+
 class MatchService {
   protected _model = Matches;
 
-  async findAll(): Promise<Matches[] | null> {
-    const result = await this._model.findAll({
+  async findAll(inProgress?: string | undefined): Promise<Matches[] | null> {
+    const queryOptions: queryType = {
       include: [
         { model: Teams, as: 'teamHome', attributes: ['teamName'] },
         { model: Teams, as: 'teamAway', attributes: ['teamName'] },
       ],
+    };
 
-    });
-    return result;
+    if (inProgress !== undefined) {
+      queryOptions.where = { inProgress: (inProgress === 'true') };
+    }
+
+    const response = await this._model.findAll(queryOptions);
+    return response;
   }
 }
 
 export default MatchService;
-
-// result.filter((m) => m.inProgress === true)

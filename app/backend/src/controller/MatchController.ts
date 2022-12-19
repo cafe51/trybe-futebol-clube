@@ -8,9 +8,13 @@ class MatchController {
     this.service = new MatchService();
   }
 
-  findAll = async (_req: Request, res: Response) => {
+  findAll = async (req: Request, res: Response) => {
     try {
-      const payload = await this.service.findAll();
+      const { inProgress } = req.query;
+      if (inProgress && inProgress !== 'false' && inProgress !== 'true') {
+        return res.status(404).json('not found');
+      }
+      const payload = await this.service.findAll(inProgress);
       return res.status(200).json(payload);
     } catch (err) {
       console.log(err);

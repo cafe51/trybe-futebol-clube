@@ -110,6 +110,35 @@ describe('Testando a rota de Matches', () => {
 
   });
 
+  describe('Testa atualização de uma partida', () => { 
+    it('É possível finalizar uma partida', async () => {
+      // const updatedMatch = allMatches[1]
+      // updatedMatch.inProgress = false;
+
+      // console.log('antiga:', allMatches[1], 'nova:', updatedMatch)
+
+      const findStub = sinon.stub(Matches, 'create');
+      findStub.resolves(allMatches[0] as any);
+
+      const response = await request(app).patch('/matches/41/finish')
+
+      expect(response.status).to.be.equal(200);
+      expect(response.body).to.be.deep.equal({ message: "Finished" });
+     })
+  });
+
+  it('É possível atualizar os gols uma partida', async () => {
+
+    const findStub = sinon.stub(Matches, 'create');
+    findStub.resolves(allMatches[0] as any);
+
+    const response = await request(app).patch('/matches/:id/')
+      .send({ homeTeamGoals: 3, awayTeamGoals: 1 });
+      
+    expect(response.status).to.be.equal(200);
+
+   })
+
 
 
 });

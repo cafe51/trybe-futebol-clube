@@ -35,14 +35,12 @@ describe('Testando a rota de Teams', () => {
   it('Se é possível dar get na lista de times', async () => {
     const response = await request(app).get('/teams');
     expect(response.status).to.be.equal(200);
-    // console.log(response.body)
     expect(response.body).to.be.deep.equal(allTeams)
   });
 
   it('Se é possível retornar dados de um time específico por ID', async () => {
     const response = await request(app).get('/teams/13');
     expect(response.status).to.be.equal(200);
-    console.log(response.body)
     expect(response.body.id).to.be.equal(13)
   });
 

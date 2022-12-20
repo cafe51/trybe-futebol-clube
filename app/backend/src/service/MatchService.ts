@@ -6,6 +6,11 @@ type TokenResponse = { token: string };
 
 type ErrorResponse = { message: string };
 
+interface updateMatchRequest {
+  homeTeamGoals: number,
+  awayTeamGoals: number
+}
+
 interface SignResponse {
   code: number;
   message: TokenResponse | ErrorResponse | Matches;
@@ -71,6 +76,14 @@ class MatchService {
   finishMatch = async (id: number): Promise<void> => {
     await Matches.update(
       { inProgress: false },
+      { where: { id } },
+    );
+  };
+
+  updateMatch = async (id: number, newData: updateMatchRequest): Promise<void> => {
+    const { homeTeamGoals, awayTeamGoals } = newData;
+    await Matches.update(
+      { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
   };

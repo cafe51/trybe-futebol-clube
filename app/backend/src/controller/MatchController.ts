@@ -39,6 +39,17 @@ class MatchController {
       console.log(err);
     }
   };
+
+  updateMatch = async (req: Request, res: Response) => {
+    try {
+      const { body } = req;
+      const { id } = req.params;
+      await this.service.updateMatch(Number(id), body);
+      return res.status(200).json({ message: 'gols atualizados' });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export default MatchController;

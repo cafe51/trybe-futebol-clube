@@ -20,6 +20,25 @@ class MatchController {
       console.log(err);
     }
   };
+
+  createMatch = async (req: Request, res: Response) => {
+    try {
+      const { code, message } = await this.service.createMatch(req.body);
+      return res.status(code).json(message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  finishMatch = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await this.service.finishMatch(Number(id));
+      return res.status(200).json({ message: 'Finished' });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export default MatchController;

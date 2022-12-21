@@ -1,4 +1,4 @@
-interface ITeam{
+interface ITeam {
   id?: number;
   teamName: string;
 }

@@ -1,6 +1,8 @@
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
+import TeamService from './TeamService';
 import NewMatchValidator from '../validators/newMatchValidator';
+import IMatch from '../interfaces/IMatch';
 
 type TokenResponse = { token: string };
 
@@ -29,9 +31,11 @@ interface queryType {
 
 class MatchService {
   private newMatchValidator: NewMatchValidator;
+  private teamsService: TeamService;
 
   constructor() {
     this.newMatchValidator = new NewMatchValidator();
+    this.teamsService = new TeamService();
   }
 
   response = (code: number, message: TokenResponse | ErrorResponse | Matches): SignResponse => {
@@ -39,7 +43,7 @@ class MatchService {
     return objectResponse;
   };
 
-  findAll = async (inProgress?: string | undefined): Promise<Matches[] | null> => {
+  findAll = async (inProgress?: string | undefined): Promise<IMatch[]> => {
     const queryOptions: queryType = {
       include: [
         { model: Teams, as: 'teamHome', attributes: ['teamName'] },
@@ -51,7 +55,7 @@ class MatchService {
       queryOptions.where = { inProgress: (inProgress === 'true') };
     }
 
-    const response = await Matches.findAll(queryOptions);
+    const response = await Matches.findAll(queryOptions) as IMatch[];
     return response;
   };
 

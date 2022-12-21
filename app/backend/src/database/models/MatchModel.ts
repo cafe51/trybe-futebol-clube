@@ -3,7 +3,7 @@ import db from '.';
 import Teams from './TeamModel';
 
 class Matches extends Model {
-  declare id: number;
+  declare id?: number;
   declare homeTeamGoals: number;
   declare awayTeamGoals: number;
   declare inProgress: boolean;

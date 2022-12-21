@@ -1,15 +1,6 @@
-// import Matches from '../database/models/MatchModel';
+import Matches from '../database/models/MatchModel';
 
-// interface IMatch{
-//   id?: number;
-//   homeTeam: number;
-//   homeTeamGoals: number;
-//   awayTeam: number;
-//   awayTeamGoals: number;
-//   inProgress: boolean;
-// }
-
-interface IMatch {
+interface IMatch extends Matches {
   id?: number;
   homeTeam: number;
   homeTeamGoals: number;

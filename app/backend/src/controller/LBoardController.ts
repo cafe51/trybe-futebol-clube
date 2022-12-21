@@ -11,14 +11,21 @@ class LBoardController {
     this.teamService = new TeamService();
   }
 
-  // findMyTeamMatches = async (req: Request, res: Response) => {
-  //   const { id } = req.params;
-  //   const response = await this.lBoardService.findMyTeamMatches(Number(id));
-  //   if (!response) return res.status(400).json('ERRO');
-  //   return res.status(200).json(response);
-  // };
-
   findAllTeamDataHome = async (_req: Request, res: Response) => {
+    const teamsData = await this.lBoardService.findAllTeamData('home');
+    if (teamsData === null) return res.status(400).json('ERROR');
+
+    res.status(200).json(teamsData);
+  };
+
+  findAllTeamDataAway = async (_req: Request, res: Response) => {
+    const teamsData = await this.lBoardService.findAllTeamData('away');
+    if (teamsData === null) return res.status(400).json('ERROR');
+
+    res.status(200).json(teamsData);
+  };
+
+  findAllTeamData = async (_req: Request, res: Response) => {
     const teamsData = await this.lBoardService.findAllTeamData();
     if (teamsData === null) return res.status(400).json('ERROR');
 

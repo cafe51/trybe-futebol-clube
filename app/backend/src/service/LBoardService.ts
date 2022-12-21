@@ -18,31 +18,20 @@ class LBoardService {
     this.teamsService = new TeamService();
   }
 
-  // findMyTeamMatches = async (id: number): Promise <IMatch[] | null> => {
-  //   const team = await this.teamsService.findById(id);
-  //   if (!team) return null;
-
-  //   const matches = await this.matchService.findAll('false') as IMatch[];
-  //   if (!matches || matches.length === 0) return null;
-
-  //   const myTeamMatches = matches.filter((mt) => {
-  //     const result = mt.teamHome.teamName === team.teamName
-  //     || mt.teamAway.teamName === team.teamName;
-  //     return result;
-  //   });
-
-  //   return myTeamMatches;
-  // };
-
-  findMyTeamMatchesHome = async (id: number): Promise <IMatch[] | null> => {
+  findMyTeamMatchesHome = async (id: number, homeOrAway?: string): Promise <IMatch[] | null> => {
     const team = await this.teamsService.findById(id);
     if (!team) return null;
 
     const matches = await this.matchService.findAll('false') as IMatch[];
-    if (!matches || matches.length === 0) return null;
 
     const myTeamMatches = matches.filter((mt) => {
-      const result = mt.teamHome.teamName === team.teamName;
+      let result;
+      if (!homeOrAway) {
+        result = mt.teamHome.teamName === team.teamName || mt.teamAway.teamName === team.teamName;
+      }
+      if (homeOrAway === 'home') result = mt.teamHome.teamName === team.teamName;
+      if (homeOrAway === 'away') result = mt.teamAway.teamName === team.teamName;
+      if (homeOrAway && homeOrAway !== 'home' && homeOrAway !== 'away') return null;
       return result;
     });
 
@@ -120,30 +109,29 @@ class LBoardService {
     return 0;
   };
 
-  findAllTeamData = async (): Promise <IMatch[] | null> => {
+  findAllTeamData = async (homeOrAway?: string): Promise <IMatch[] | null> => {
     const teams = await this.teamsService.findAll();
     if (!teams) return null;
 
     const allTeamsData = await Promise.allSettled(teams.map(async (t) => {
-      const machesById = await this.findMyTeamMatchesHome(Number(t.id)) as IMatch[];
-      // if (!IMatch) return null;
-
-      const mapped = await this.findMyTeamData(machesById, t.teamName);
+      let machesById;
+      if (!homeOrAway) machesById = await this.findMyTeamMatchesHome(Number(t.id)) as IMatch[];
+      if (homeOrAway === 'home') {
+        machesById = await this.findMyTeamMatchesHome(Number(t.id), 'home') as IMatch[];
+      }
+      if (homeOrAway === 'away') {
+        machesById = await this.findMyTeamMatchesHome(Number(t.id), 'away') as IMatch[];
+      }
+      if (homeOrAway && homeOrAway !== 'home' && homeOrAway !== 'away') return null;
+      const mapped = await this.findMyTeamData(machesById as IMatch[], t.teamName);
 
       return mapped;
     })) as any;
 
     const finalResult = allTeamsData.map((m: { value: teamData; }) => m.value);
 
-    // return finalResult;
     return finalResult.sort(this.sortByTotalVictories);
   };
-
-  // findAllTeamHomeData
 }
 
 export default LBoardService;
-
-// [P / (J * 3)] * 100
-// P: Total de Pontos;
-// J: Total de Jogos.
